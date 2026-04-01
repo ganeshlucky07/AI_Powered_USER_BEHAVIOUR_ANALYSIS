@@ -1,0 +1,56 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "noob",
+      "email": "koko9090@gmail.com",
+      "password": "$2a$10$n6hvEBjBoIiRDqKXZkh2/u9./bPklMSL5m/kHzxsm4OC4A3nwVUZm",
+      "fullName": "noob",
+      "role": "USER"
+    }
+  ],
+  "activities": [
+    {
+      "id": 1,
+      "loginTime": 7,
+      "failAttempts": 1,
+      "locationChange": 0,
+      "txnAmount": 40000,
+      "riskScore": 15,
+      "riskLevel": "LOW",
+      "createdAt": "2026-04-01T19:51:51.873Z"
+    },
+    {
+      "id": 2,
+      "loginTime": 12,
+      "failAttempts": 13,
+      "locationChange": 0,
+      "txnAmount": 89988.04,
+      "apiCallsPerMinute": 700,
+      "repeatedRequests": 3,
+      "unusualEndpointAccess": 1,
+      "passwordResetAttempts": 6,
+      "otpFailures": 5,
+      "multipleAccountsTried": 1,
+      "riskScore": 100,
+      "riskLevel": "HIGH",
+      "createdAt": "2026-04-01T20:52:53.445Z"
+    },
+    {
+      "id": 3,
+      "loginTime": 12,
+      "failAttempts": 13,
+      "locationChange": 1,
+      "txnAmount": 89988.04,
+      "apiCallsPerMinute": 700,
+      "repeatedRequests": 3,
+      "unusualEndpointAccess": 1,
+      "passwordResetAttempts": 6,
+      "otpFailures": 5,
+      "multipleAccountsTried": 1,
+      "riskScore": 100,
+      "riskLevel": "HIGH",
+      "createdAt": "2026-04-01T20:53:17.074Z"
+    }
+  ]
+}

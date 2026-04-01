@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: risk-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false
+      - key: REACT_APP_AI_URL
+        sync: false
+    autoDeploy: true
