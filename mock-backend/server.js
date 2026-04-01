@@ -6,8 +6,9 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 8080;
-const JWT_SECRET = 'mock-secret-key-123456';
+const PORT = process.env.PORT || 8080;
+const JWT_SECRET = process.env.JWT_SECRET || 'mock-secret-key-123456';
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
 const DATA_FILE = path.join(__dirname, 'data.json');
 
 // Load data from file or initialize
@@ -35,7 +36,14 @@ const saveData = () => {
 // Initialize data
 const { users, activities } = loadData();
 
-app.use(cors());
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://*.onrender.com', 'https://risk-frontend.onrender.com'] 
+    : '*',
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Auth middleware
@@ -55,9 +63,9 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-// Health check
+// Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'Mock backend running' });
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Register
@@ -158,7 +166,7 @@ app.put('/api/auth/password', authMiddleware, async (req, res) => {
 // Analyze risk (mock - calls AI service)
 app.post('/api/analyze', authMiddleware, async (req, res) => {
   try {
-    const response = await fetch('http://localhost:8000/predict', {
+    const response = await fetch(`${AI_SERVICE_URL}/predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req.body)

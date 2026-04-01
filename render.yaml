@@ -1,0 +1,44 @@
+services:
+  # 1. AI Service (Python FastAPI)
+  - type: web
+    name: risk-ai-service
+    env: python
+    buildCommand: pip install -r ai-service/requirements.txt && cd ai-service && python train_model.py
+    startCommand: cd ai-service && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    healthCheckPath: /health
+
+  # 2. Backend API (Node.js)
+  - type: web
+    name: risk-backend
+    env: node
+    buildCommand: cd mock-backend && npm install
+    startCommand: cd mock-backend && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/health
+
+  # 3. Frontend (React Static)
+  - type: web
+    name: risk-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          name: risk-backend
+          type: web
+          property: url
+      - key: REACT_APP_AI_URL
+        fromService:
+          name: risk-ai-service
+          type: web
+          property: url
